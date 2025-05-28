@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Flow Tester Inspection Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f5; }
+        h2 { color: #222; }
+        form { background: #fff; padding: 20px; border-radius: 10px; max-width: 900px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: block; margin-top: 15px; }
+        input, select, textarea {
+            width: 100%; padding: 8px; margin-top: 5px;
+            border: 1px solid #ccc; border-radius: 5px;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td {
+            border: 1px solid #ccc; padding: 6px; text-align: center;
+        }
+        .checkbox-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .checkbox-group label { font-weight: normal; }
+        button {
+            margin-top: 20px; padding: 10px 15px;
+            background-color: #007BFF; color: white;
+            border: none; border-radius: 5px; cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h2>Air Flow Tester Inspection Sheet</h2>
+    <form method="POST" action="/submit">
+        <label>User Name</label><input name="user_name" required>
+        <label>Line Name</label><input name="line_name">
+        <label>Model</label><input name="model">
+        <label>Serial Number</label><input name="serial_number">
+        <label>MFG Date</label><input name="mfg_date">
+        <label>Battery</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="battery" value="Good"> Good</label>
+            <label><input type="checkbox" name="battery" value="2.7 or lower"> 2.7V or lower</label>
+            <label><input type="checkbox" name="battery" value="Warning"> Warning</label>
+            <label><input type="checkbox" name="battery" value="Replacement"> Replacement</label>
+        </div>
+        <label>User Span</label><input name="user_span">
+        <label>Mode</label><input name="mode">
+        <label>Temperature</label><input name="temperature">
+        <label>Humidity</label><input name="humidity">
+        <label>Pressure</label><input name="pressure">
+        <label>No-Leak Check Values</label>
+        <table>
+            <tr><th>Row</th><th>Leak Value</th></tr>
+            <tr><td>1</td><td><input name="leak1"></td></tr>
+            <tr><td>2</td><td><input name="leak2"></td></tr>
+            <tr><td>3</td><td><input name="leak3"></td></tr>
+        </table>
+        <label>Calibration (Flow)</label>
+        <table>
+            <tr><th>#</th><th>Ref Flow</th><th>Applied Flow</th><th>Read Out (Before)</th><th>Read Out (After)</th></tr>
+            {% for i in range(6) %}
+            <tr>
+                <td>{{i}}</td>
+                <td><input name="ref_flow_{{i}}"></td>
+                <td><input name="applied_flow_{{i}}"></td>
+                <td><input name="read_before_{{i}}"></td>
+                <td><input name="read_after_{{i}}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <label>Operation Check</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="operation" value="Pass"> Pass</label>
+            <label><input type="checkbox" name="operation" value="Fail"> Fail</label>
+            <label><input type="checkbox" name="operation" value="Not Inspected"> Not Inspected</label>
+        </div>
+        <label>IR Test</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="ir_test" value="Pass"> Pass</label>
+            <label><input type="checkbox" name="ir_test" value="Fail"> Fail</label>
+            <label><input type="checkbox" name="ir_test" value="Not Inspected"> Not Inspected</label>
+        </div>
+        <label>Kernel Value (Before & After)</label>
+        <table>
+            <tr><th>Position</th><th>Before</th><th>After</th></tr>
+            {% for i in range(6) %}
+            <tr>
+                <td>{{i}}</td>
+                <td><input name="kernel_before_{{i}}"></td>
+                <td><input name="kernel_after_{{i}}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <label>Notes</label><textarea name="notes"></textarea>
+        <label>Before Leaving</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="restore" value="Yes"> Restore Settings?</label>
+            <label><input type="checkbox" name="return_valve" value="Yes"> Return Valve?</label>
+        </div>
+        <label>Total Decision</label>
+        <div class="checkbox-group">
+            <label><input type="radio" name="decision" value="Pass" required> Pass</label>
+            <label><input type="radio" name="decision" value="Fail"> Fail</label>
+        </div>
+        <button type="submit">Submit Form</button>
+    </form>
+</body>
+</html>
